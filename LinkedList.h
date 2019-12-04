@@ -9,7 +9,16 @@ LinkedListNode<T1>* head;
 LinkedListNode<T1>* tail;
 public:
 	LinkedList(){head =nullptr; tail =nullptr;}
-	virtual ~LinkedList(){}
+	virtual ~LinkedList(){
+		LinkedListNode<T1> *temp=head;
+		while(head)
+		{
+			temp=head;
+			head = head->getNext();
+			delete temp;
+		}
+		//delete temp;
+	}
 	void insert(T1);
 	void insert(T1,int position);
 	void print();
