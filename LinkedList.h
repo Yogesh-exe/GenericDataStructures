@@ -7,8 +7,9 @@ template <typename T1>
 class LinkedList {
 LinkedListNode<T1>* head;
 LinkedListNode<T1>* tail;
+int _length;
 public:
-	LinkedList(){head =nullptr; tail =nullptr;}
+	LinkedList(){head =nullptr; tail =nullptr;_length=0;}
 	virtual ~LinkedList(){
 		LinkedListNode<T1> *temp=head;
 		while(head)
@@ -20,25 +21,41 @@ public:
 		//delete temp;
 	}
 	void insert(T1);
+	inline void insertAtHead(T1);
+	void removeAtHead();
 	void insert(T1,int position);
 	void print();
+	int length(){return _length;}
 };
 
+
+
+template<typename T1>
+inline void LinkedList<T1>::insertAtHead(T1 data) {
+	LinkedListNode<T1> *node = new LinkedListNode<T1>(data);
+	if(head==nullptr){
+		head=tail=node;
+	}
+	else
+	{
+		node->setNext(head);
+		head=node;
+	}
+	_length++;
+}
 
 template<typename T1>
 inline void LinkedList<T1>::insert(T1 data) {
 	LinkedListNode<T1> *node = new LinkedListNode<T1>(data);
 	if(head==nullptr){
-		head=node;
+		head=tail=node;
 	}
 	else
 	{
-		LinkedListNode<T1>* temp =head;
-		while(temp->getNext())
-			temp= temp->getNext();
-	temp->setNext(node);
-
+		tail->setNext(node);
+	tail=node;
 	}
+	_length++;
 }
 
 
@@ -57,9 +74,8 @@ inline void LinkedList<T1>::insert(T1 data,int position) {
 			temp= temp->getNext();
 	node->setNext(temp->getNext());
 	temp->setNext(node);
-
 	}
-
+	_length++;
 }
 
 template<typename T1>
@@ -69,7 +85,7 @@ inline void LinkedList<T1>::print() {
 	{
 		std::cout<<temp->getData();
 		temp = temp->getNext();
-}
+	}
 }
 
 #endif /* LINKEDLIST_H_ */
